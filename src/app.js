@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
-
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
 import adoptionsRouter from './routes/adoption.router.js';
@@ -10,8 +9,8 @@ import mockingRouter from "./routes/mocks.router.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-mongoose.set('strictQuery', false);
-const connection = mongoose.connect(`mongodb+srv://coder_70280:Lgmd2233.@cluster0.cfpeb.mongodb.net/CoderHouse-prod`, {
+ mongoose.set('strictQuery', false);
+const connection = mongoose.connect(`mongodb+srv://Coder_70285:wfda6Jpj5IoFoIfk@cluster0.cfpeb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/coder_70285`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -26,3 +25,7 @@ app.use('/api/sessions', sessionsRouter);
 app.use("/api/mocks", mockingRouter);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+
+
+

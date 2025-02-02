@@ -1,10 +1,10 @@
 import { Router } from "express";
-const router = Router(); 
-//Importan de los controladores: 
 import mocksController from "../controllers/mocks.controller.js";
 
-router.get("/mockingpets", mocksController.getMockingPets); 
+const router = Router();
+
+router.get("/mockingpets", mocksController.getMockingPets);
 router.get("/mockingusers", mocksController.getMockingUsers);
+router.post("/generateData", mocksController.generateMockingData);
 
-
-export default router; 
+export default router;
