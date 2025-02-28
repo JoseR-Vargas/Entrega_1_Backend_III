@@ -1,0 +1,233 @@
+paths:
+  /pets:
+    get:
+      summary: Obtener todas las mascotas
+      operationId: getAllPets
+      tags:
+        - Mascotas
+      responses:
+        '200':
+          description: Una lista de mascotas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pet'
+
+    post:
+      summary: Crear una nueva mascota
+      operationId: createPet
+      tags:
+        - Mascotas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - specie
+                - birthDate
+              properties:
+                name:
+                  type: string
+                  example: "Buddy"
+                specie:
+                  type: string
+                  example: "Perro"
+                birthDate:
+                  type: string
+                  format: date
+                  example: "2020-05-01"
+      responses:
+        '200':
+          description: Mascota creada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/Pet'
+        '400':
+          description: Valores incompletos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Valores incompletos
+
+  /pets/withimage:
+    post:
+      summary: Crear una nueva mascota con una imagen
+      operationId: createPetWithImage
+      tags:
+        - Mascotas
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - specie
+                - birthDate
+                - image
+              properties:
+                name:
+                  type: string
+                  example: "Buddy"
+                specie:
+                  type: string
+                  example: "Perro"
+                birthDate:
+                  type: string
+                  format: date
+                  example: "2020-05-01"
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Mascota creada exitosamente con imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/Pet'
+        '400':
+          description: Valores incompletos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Valores incompletos
+
+  /pets/{pid}:
+    put:
+      summary: Actualizar una mascota existente
+      operationId: updatePet
+      tags:
+        - Mascotas
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El ID de la mascota a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                specie:
+                  type: string
+                birthDate:
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: Mascota actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: mascota actualizada
+
+    delete:
+      summary: Eliminar una mascota
+      operationId: deletePet
+      tags:
+        - Mascotas
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El ID de la mascota a eliminar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mascota eliminada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: mascota eliminada
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: El identificador único de la mascota
+          example: "608c0c2f9c2a5c001f8e4b65"
+        name:
+          type: string
+          example: "Buddy"
+        specie:
+          type: string
+          example: "Perro"
+        birthDate:
+          type: string
+          format: date
+          example: "2020-05-01"
+        adopted:
+          type: boolean
+          example: false
+        owner:
+          type: string
+          description: El ID del propietario de la mascota
+          example: "608c0c2f9c2a5c001f8e4b64"
+        image:
+          type: string
+          description: URL o ruta de la imagen de la mascota
+          example: "/public/img/buddy.jpg"
