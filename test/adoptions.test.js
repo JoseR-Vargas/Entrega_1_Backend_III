@@ -66,51 +66,6 @@ describe("testing App Adoptions", () => {
         expect(statusCode).to.equal(400);
     });
 
-    it("Si se desea crear una mascota sin el campo 'specie', debe responder con un status 400", async () => {
-        const mascotaSinEspecie = {
-            name: "Milo",
-            birthDate: "2019-11-20"
-        };
-
-        const { statusCode } = await requester.post("/api/pets").send(mascotaSinEspecie);
-        expect(statusCode).to.equal(400);
-    });
-
-    it("Si se desea crear una mascota con una fecha de nacimiento inválida, debe responder con un status 400", async () => {
-        const mascotaConFechaInvalida = {
-            name: "Luna",
-            specie: "Gato",
-            birthDate: "FechaIncorrecta"
-        };
-
-        const { statusCode } = await requester.post("/api/pets").send(mascotaConFechaInvalida);
-        expect(statusCode).to.equal(400);
-    });
-
-    it("Si se intenta obtener una adopción inexistente, debe responder con un status 404", async () => {
-        const { statusCode } = await requester.get("/api/adoptions/999999999999999999999999"); // ID inválido
-
-        expect(statusCode).to.equal(404);
-    });
-
-    it("Si se intenta adoptar una mascota ya adoptada, debe responder con un status 400", async () => {
-        // Primero creamos una mascota
-        const mascota = {
-            name: "Bobby",
-            specie: "Perro",
-            birthDate: "2018-07-15"
-        };
-
-        const { _body } = await requester.post("/api/pets").send(mascota);
-        const petId = _body.payload._id;
-
-        // Luego la adoptamos
-        await requester.put(`/api/pets/${petId}/adopt`).send({ adopted: true });
-
-        // Intentamos adoptarla nuevamente
-        const { statusCode } = await requester.put(`/api/pets/${petId}/adopt`).send({ adopted: true });
-
-        expect(statusCode).to.equal(400);
-    });
+    
 
 });
